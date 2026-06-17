@@ -157,6 +157,53 @@ st.markdown("""
     margin-bottom: 1.4rem;
   }
 
+  /* Probability strip */
+  .prob-strip {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin: 1rem 0 1.4rem;
+    border: 1px solid #1e2d47;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .prob-block {
+    flex: 1;
+    text-align: center;
+    padding: 0.9rem 0.5rem;
+    background: #0f1627;
+    border-right: 1px solid #1e2d47;
+    transition: background 0.2s;
+  }
+  .prob-block:last-child { border-right: none; }
+  .draw-block { border-left: 1px solid #1e2d47; }
+  .prob-active { background: #1a2540; }
+  .prob-team {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #8a9bbf;
+    margin-bottom: 0.3rem;
+  }
+  .prob-pct {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+  .prob-active .prob-pct { color: #c9a84c; }
+  .prob-lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    color: #3d4f6e;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: 0.2rem;
+  }
+
   /* Section label */
   .section-label {
     font-family: 'Inter', sans-serif;
@@ -450,6 +497,23 @@ if predict_btn:
             <div class="elo-chip">ELO<span>{round(r_h)}</span></div>
             <div class="elo-chip">DIFFERENTIAL<span>{round(r_h) - round(r_a):+d}</span></div>
             <div class="elo-chip">ELO<span>{round(r_a)}</span></div>
+          </div>
+          <div class="prob-strip">
+            <div class="prob-block {'prob-active' if pred_idx == 0 else ''}">
+              <div class="prob-team">{home}</div>
+              <div class="prob-pct">{probs[0]:.1%}</div>
+              <div class="prob-lbl">Win</div>
+            </div>
+            <div class="draw-block prob-block {'prob-active' if pred_idx == 1 else ''}">
+              <div class="prob-team">Draw</div>
+              <div class="prob-pct">{probs[1]:.1%}</div>
+              <div class="prob-lbl">Match nul</div>
+            </div>
+            <div class="prob-block {'prob-active' if pred_idx == 2 else ''}">
+              <div class="prob-team">{away}</div>
+              <div class="prob-pct">{probs[2]:.1%}</div>
+              <div class="prob-lbl">Win</div>
+            </div>
           </div>
           <div class="pred-label">Model Prediction</div>
           <div class="pred-value">{pred_display}</div>
